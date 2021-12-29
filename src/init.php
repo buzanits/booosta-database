@@ -1,10 +1,8 @@
 <?php
 namespace booosta\database;
 
-#if(\booosta\Framework::$CONFIG['db_module'])
-  \booosta\add_module_trait('base', 'database\base');
-
-\booosta\add_module_trait('base', 'database\base_init');
+\booosta\Framework::add_module_trait('base', 'database\base');
+\booosta\Framework::add_module_trait('base', 'database\base_init');
 
 trait Base_init
 {
@@ -18,8 +16,9 @@ trait Base
 {
   public function init_db($host = null, $user = null, $password = null, $db = null)
   {
-    if(is_object($this->DB)) return $this->DB;
-    if(is_object($this->parentobj) && is_object($this->DB = $this->parentobj->init_db($host, $user, $password, $db))) return $this->DB;
+    if(!empty($this->DB) && is_object($this->DB)) return $this->DB;
+    if(!empty($this->parentobj) && is_object($this->parentobj) && is_object($this->DB = $this->parentobj->init_db($host, $user, $password, $db))) 
+      return $this->DB;
 
     return $this->DB = $this->makeInstance('\booosta\database\DB', $host, $user, $password, $db);
   }
@@ -59,4 +58,3 @@ trait DBtrait
     return '(' . implode(" $operator ", $result) . ')';
   }
 }
-?>
