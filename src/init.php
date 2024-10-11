@@ -40,7 +40,7 @@ trait DBtrait
 
     $result = [];
     foreach($patterns as $pattern):
-      $subresult = '';
+      $subresult = [];
 
       foreach($fields as $field):
         if(strstr($field, '.')):
